@@ -99,7 +99,7 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section - Carousel Style */}
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative min-h-dvh flex flex-col overflow-hidden">
         {/* Background Images */}
         {services.map((service, index) => (
           <div
@@ -116,101 +116,103 @@ export default function ServicesPage() {
               fill
               className="object-cover"
               priority={index === 0}
+              sizes="100vw"
             />
-            {/* Solo overlay muy sutil para legibilidad */}
             <div className="absolute inset-0 bg-black/20" />
           </div>
         ))}
 
-        {/* Content Overlay */}
-        <div className="relative z-10 h-full flex flex-col justify-between px-6 md:px-12 lg:px-20 py-12 pt-32">
+        {/* Content Overlay - scrollable on small screens if content overflows */}
+        <div className="relative z-10 flex-1 flex flex-col justify-between min-h-0 px-4 py-6 pt-20 sm:px-6 sm:pt-24 md:px-12 md:py-12 md:pt-32 lg:px-20">
           {/* Top Navigation */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 backdrop-blur-md bg-black/20">
-              <Camera className="w-3 h-3 text-white/70" />
-              <span className="text-xs uppercase tracking-[0.3em] text-white/70">
+          <div className="flex items-center justify-between shrink-0">
+            <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-white/20 backdrop-blur-md bg-black/20">
+              <Camera className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white/70" />
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] text-white/70">
                 Servicios
               </span>
             </div>
 
-            <div className="flex gap-2">
+            <div className="flex gap-1.5 sm:gap-2">
               {services.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveService(index)}
-                  className={`h-1 rounded-full transition-all duration-500 ${
+                  className={`rounded-full transition-all duration-500 ${
                     index === activeService
-                      ? "w-12 bg-white"
-                      : "w-8 bg-white/30"
+                      ? "w-8 sm:w-12 h-1.5 sm:h-1 bg-white"
+                      : "w-6 sm:w-8 h-1.5 sm:h-1 bg-white/30"
                   }`}
+                  aria-label={`Servicio ${index + 1}`}
                 />
               ))}
             </div>
           </div>
 
           {/* Center Content */}
-          <div className="text-center max-w-5xl mx-auto">
-            {/* Contenido con sombra de texto para legibilidad */}
-            <div
-              className={`transition-all duration-700 ${
-                activeService >= 0
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-8"
-              }`}
-              style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
-            >
-              <div className="inline-flex items-center gap-3 mb-6">
-                {React.createElement(services[activeService].icon, {
-                  className: "w-8 h-8 text-white drop-shadow-lg",
-                })}
-                <span className="text-white/90 text-sm uppercase tracking-[0.3em]">
-                  {services[activeService].tagline}
-                </span>
-              </div>
+          <div className="flex-1 flex flex-col justify-center min-h-0 py-4 sm:py-6">
+            <div className="text-center max-w-5xl mx-auto w-full overflow-hidden">
+              <div
+                className={`transition-all duration-700 ${
+                  activeService >= 0
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-8"
+                }`}
+                style={{ textShadow: "0 2px 20px rgba(0,0,0,0.5)" }}
+              >
+                <div className="inline-flex items-center gap-2 sm:gap-3 mb-3 sm:mb-6">
+                  {React.createElement(services[activeService].icon, {
+                    className: "w-6 h-6 sm:w-8 sm:h-8 text-white drop-shadow-lg shrink-0",
+                  })}
+                  <span className="text-white/90 text-[10px] sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em]">
+                    {services[activeService].tagline}
+                  </span>
+                </div>
 
-              <h1 className="font-serif text-7xl md:text-9xl lg:text-[12rem] leading-[0.85] text-white italic mb-8">
-                {services[activeService].title}
-              </h1>
+                <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[10rem] leading-[0.88] text-white italic mb-4 sm:mb-6 md:mb-8 wrap-break-word">
+                  {services[activeService].title}
+                </h1>
 
-              <p className="text-xl md:text-2xl text-white/90 font-light leading-relaxed max-w-3xl mx-auto mb-12">
-                {services[activeService].description}
-              </p>
+                <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-white/90 font-light leading-relaxed max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-12 px-0">
+                  {services[activeService].description}
+                </p>
 
-              <div className="flex flex-wrap items-center justify-center gap-3">
-                <Link
-                  href={`/contact?service=${services[activeService].id}`}
-                  className="group inline-flex items-center gap-2.5 bg-white text-black px-8 py-4 rounded-full text-sm font-medium uppercase tracking-[0.2em] hover:bg-white/90 transition-all duration-300"
-                >
-                  Creemos juntos
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
-                <Link
-                  href={`/services/${services[activeService].slug}`}
-                  className="group inline-flex items-center gap-2.5 text-sm uppercase tracking-[0.2em] text-white/90 border border-white/30 px-8 py-4 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300"
-                >
-                  Ver más
-                  <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                </Link>
+                <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-2 sm:gap-3">
+                  <Link
+                    href={`/contact?service=${services[activeService].id}`}
+                    className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 bg-white text-black w-full sm:w-auto px-5 py-3 sm:px-8 sm:py-4 rounded-full text-xs sm:text-sm font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] hover:bg-white/90 transition-all duration-300"
+                  >
+                    Creemos juntos
+                    <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
+                  </Link>
+                  <Link
+                    href={`/services/${services[activeService].slug}`}
+                    className="group inline-flex items-center justify-center gap-2 sm:gap-2.5 w-full sm:w-auto text-xs sm:text-sm uppercase tracking-[0.15em] sm:tracking-[0.2em] text-white/90 border border-white/30 px-5 py-3 sm:px-8 sm:py-4 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300"
+                  >
+                    Ver más
+                    <ArrowUpRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 shrink-0" />
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Bottom Info */}
-          <div className="flex flex-wrap items-end justify-between gap-6">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-end justify-between gap-4 sm:gap-6 shrink-0 pt-4">
             <div
-              className="text-white/90 text-sm"
+              className="text-white/90 text-xs sm:text-sm order-2 sm:order-1"
               style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
             >
-              <div className="mb-2 text-white/70 uppercase tracking-wider text-xs">
+              <div className="mb-1.5 sm:mb-2 text-white/70 uppercase tracking-wider text-[10px] sm:text-xs">
                 Características principales
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 {services[activeService].features
                   .slice(0, 3)
                   .map((feature, i) => (
                     <span
                       key={i}
-                      className="text-xs text-white/90 px-3 py-1 border border-white/30 backdrop-blur-sm bg-white/10 rounded-full"
+                      className="text-[10px] sm:text-xs text-white/90 px-2.5 py-1 sm:px-3 border border-white/30 backdrop-blur-sm bg-white/10 rounded-full"
                     >
                       {feature}
                     </span>
@@ -222,14 +224,15 @@ export default function ServicesPage() {
               onClick={() =>
                 setActiveService((activeService + 1) % services.length)
               }
-              className="group flex items-center gap-2 text-white/80 hover:text-white transition-colors"
+              className="group flex items-center justify-center sm:justify-end gap-2 text-white/80 hover:text-white transition-colors order-1 sm:order-2 self-center sm:self-end min-h-[44px]"
               style={{ textShadow: "0 2px 10px rgba(0,0,0,0.5)" }}
+              aria-label="Siguiente servicio"
             >
-              <span className="text-sm uppercase tracking-wider">
+              <span className="text-xs sm:text-sm uppercase tracking-wider">
                 Siguiente servicio
               </span>
-              <div className="w-10 h-10 rounded-full border border-white/30 backdrop-blur-sm bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all">
-                <ArrowUpRight className="w-4 h-4" />
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/30 backdrop-blur-sm bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-all shrink-0">
+                <ArrowUpRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </button>
           </div>
