@@ -169,10 +169,10 @@ function getSpanClasses(span?: string): string {
     col === 1
       ? "md:col-span-1"
       : col === 2
-      ? "md:col-span-2"
-      : col === 4
-      ? "md:col-span-4"
-      : "md:col-span-1";
+        ? "md:col-span-2"
+        : col === 4
+          ? "md:col-span-4"
+          : "md:col-span-1";
   const rowClass = row === 1 ? "md:row-span-1" : "md:row-span-2";
   return `${base} ${colClass} ${rowClass}`;
 }

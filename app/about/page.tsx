@@ -229,7 +229,7 @@ export default function AboutPage() {
                 specialty: "Video Cinematográfico",
               },
               {
-                image: "/images/team-3.jpg",
+                image: "/images/founder.jpg",
                 name: "Ana Gómez",
                 role: "Editora Senior",
                 specialty: "Post-Producción",

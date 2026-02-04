@@ -57,7 +57,7 @@ export function TestimonialsSection() {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrent(
-      (prev) => (prev - 1 + testimonials.length) % testimonials.length
+      (prev) => (prev - 1 + testimonials.length) % testimonials.length,
     );
     setTimeout(() => setIsAnimating(false), 700);
   };

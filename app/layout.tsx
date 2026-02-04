@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Instrument_Serif, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -79,13 +80,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
       <body
         className={`${instrumentSerif.variable} ${spaceGrotesk.variable} font-sans antialiased bg-background text-foreground`}
       >
-        <Navbar />
-        {children}
-        <Footer />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <Navbar />
+          {children}
+          <Footer />
+        </ThemeProvider>
         <Analytics />
       </body>
     </html>

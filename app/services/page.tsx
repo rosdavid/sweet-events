@@ -13,63 +13,19 @@ import {
   Star,
 } from "lucide-react";
 import React from "react";
+import { servicesData } from "@/lib/services-data";
 
-const services = [
-  {
-    id: "bodas",
-    icon: Heart,
-    title: "Bodas",
-    tagline: "Romance Eterno",
-    description:
-      "Capturamos la magia de tu día especial con una narrativa cinematográfica que trasciende el tiempo. Cada momento, cada emoción, preservados en arte visual.",
-    image: "/images/hero-wedding.jpg",
-    features: [
-      "Cobertura completa del evento",
-      "Video cinematográfico 4K",
-      "Fotografías editadas profesionales",
-      "Sesión pre-boda incluida",
-      "Álbum premium personalizado",
-      "Galería online privada",
-    ],
-    color: "from-rose-500 via-pink-500 to-purple-500",
-  },
-  {
-    id: "empresarial",
-    icon: Briefcase,
-    title: "Corporativo",
-    tagline: "Branding Visual",
-    description:
-      "Contenido corporativo que comunica profesionalismo y eleva tu marca. Videos institucionales, retratos ejecutivos y cobertura de eventos con estilo contemporáneo.",
-    image: "/images/corporate-event.jpg",
-    features: [
-      "Videos promocionales HD/4K",
-      "Fotografía de producto",
-      "Retratos corporativos",
-      "Cobertura de eventos",
-      "Contenido para RRSS",
-      "Entrega express 72hrs",
-    ],
-    color: "from-blue-500 via-cyan-500 to-indigo-500",
-  },
-  {
-    id: "eventos",
-    icon: PartyPopper,
-    title: "Eventos Sociales",
-    tagline: "Celebraciones Memorables",
-    description:
-      "Transformamos celebraciones en recuerdos extraordinarios. Quinceañeras, aniversarios, fiestas: cada evento documentado con creatividad y elegancia.",
-    image: "/images/dinner-party.jpg",
-    features: [
-      "Cobertura completa",
-      "Highlight video cinematográfico",
-      "Fotografías profesionales",
-      "Drone footage opcional",
-      "Edición cinematográfica",
-      "Entrega digital rápida",
-    ],
-    color: "from-amber-500 via-orange-500 to-yellow-500",
-  },
-];
+const iconBySlug = {
+  weddings: Heart,
+  corporate: Briefcase,
+  dinners: PartyPopper,
+} as const;
+
+const services = servicesData.map((s) => ({
+  ...s,
+  anchor: s.slug,
+  icon: iconBySlug[s.slug],
+}));
 
 const examples = [
   {
@@ -225,14 +181,14 @@ export default function ServicesPage() {
                   href={`/contact?service=${services[activeService].id}`}
                   className="group inline-flex items-center gap-2.5 bg-white text-black px-8 py-4 rounded-full text-sm font-medium uppercase tracking-[0.2em] hover:bg-white/90 transition-all duration-300"
                 >
-                  Solicitar cotización
+                  Creemos juntos
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
                 <Link
-                  href="/portfolio"
+                  href={`/services/${services[activeService].slug}`}
                   className="group inline-flex items-center gap-2.5 text-sm uppercase tracking-[0.2em] text-white/90 border border-white/30 px-8 py-4 rounded-full hover:bg-white/10 hover:border-white/40 transition-all duration-300"
                 >
-                  Ver portfolio
+                  Ver más
                   <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                 </Link>
               </div>
@@ -296,7 +252,8 @@ export default function ServicesPage() {
             {services.map((service, index) => (
               <div
                 key={service.id}
-                className="group relative border border-foreground/10 overflow-hidden hover:border-foreground/30 transition-all duration-500"
+                id={service.anchor}
+                className="group relative border border-foreground/10 overflow-hidden hover:border-foreground/30 transition-all duration-500 scroll-mt-24"
               >
                 {/* Image */}
                 <div className="relative aspect-4/3 overflow-hidden">
